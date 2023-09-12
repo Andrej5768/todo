@@ -1,0 +1,46 @@
+services:
+  db:
+    image: mysql:latest
+    restart:
+        always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: todoPassword1
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - todo-app
+  app:
+    image: app
+    restart:
+        always
+    ports:
+      - 80:8081
+    depends_on:
+      - db
+    build:
+        context: .
+        dockerfile: Dockerfile
+    environment:
+        DB_HOST: db
+        DB_PORT: 3306
+        DB_DATABASE: todo
+        DB_USERNAME: todo
+        DB_PASSWORD: todoPassword1
+        MAIL_HOST: smtp.mailtrap.io
+        MAIL_PORT: 2525
+        MAIL_USERNAME: 5f8b7b7b0b0b0b
+        MAIL_PASSWORD: 0b0b0b0b0b0b0b
+        MAIL_SUPPORT: support@example.com
+    volumes:
+      - ~/config/:/config/
+    networks:
+        - todo-app
+
+volumes:
+    db:
+
+networks:
+    todo-app:

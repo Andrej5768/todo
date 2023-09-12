@@ -9,6 +9,7 @@ import java.sql.Timestamp;
  * @since 06.09.2023
  */
 @Entity
+@Table(name = "task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

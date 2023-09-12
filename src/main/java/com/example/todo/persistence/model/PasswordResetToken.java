@@ -10,6 +10,7 @@ import java.util.Date;
  * @since 07.09.2023
  */
 @Entity
+@Table(name = "password_reset_token")
 public class PasswordResetToken {
 
     private static final int EXPIRATION = 60 * 24;

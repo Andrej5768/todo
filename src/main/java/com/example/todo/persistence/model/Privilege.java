@@ -9,6 +9,7 @@ import java.util.Collection;
  * @since 07.09.2023
  */
 @Entity
+@Table(name = "privilege")
 public class Privilege {
 
     @Id

@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
 
 <body>
 <div style="align-self: flex-end; padding-right: 10px" >
-    <a class="btn" href="/console">Admin Console</a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn" href="/console">Admin Console</a>
     <a class="btn" href="/logout.html">Logout</a>
 </div>
 <div id="header">

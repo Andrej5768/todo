@@ -1,8 +1,8 @@
 FROM openjdk:17
-ADD todo.jar app.jar
+ADD ToDo.jar app.jar
 
 LABEL image.name="todo"
 
-EXPOSE 8082:8081
+EXPOSE 80:8081
 
 ENTRYPOINT ["java","-jar","app.jar"]

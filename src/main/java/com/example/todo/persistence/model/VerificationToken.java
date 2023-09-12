@@ -10,6 +10,7 @@ import java.util.Date;
  * @since 07.09.2023
  */
 @Entity
+@Table(name = "verification_token")
 public class VerificationToken {
 
     private static final int EXPIRATION = 60 * 24;
