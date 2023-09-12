@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#062e3f">
+    <meta name="Description" content="A dynamic and aesthetic To-Do List WebApp.">
+
+    <!-- Google Font: Quick Sand -->
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <!-- font awesome (https://fontawesome.com) for basic icons; source: https://cdnjs.com/libraries/font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.png"/>
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="css/corner.css" th:href="@{/css/corner.css}">
+    <title>Console</title>
+
+</head>
+<div class="container admin-container">
+    <div th:if="${message != null}" class="alert alert-info" th:utext="${message}">message</div>
+
+    <h1>This is the landing page for the admin</h1>
+
+    <div sec:authorize="hasRole('ROLE_USER')">This text is only visible to a user</div>
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')"> This text is only visible to an admin</div>
+    <br/>
+    <a class="btn btn-default" th:href="@{/loggedUsers}">See Active User</a>
+    <br/>
+    <a class="btn btn-default" th:href="@{/changePassword}" th:utext="#{message.changePassword}">change
+        password</a>
+    <br/>
+
+</div>
+
+</body>
+
+</html>

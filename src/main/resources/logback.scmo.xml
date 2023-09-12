@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender" level="WARN">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+            by default -->
+        <encoder>
+            <charset>UTF-8</charset>
+<!--            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} [%thread] %-5level  %logger{20} - %msg%n</pattern>-->
+            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} %-5level  %logger{20} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/Path_Finder.log</file>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>./logs/Path_Finder.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- Храним файлы логов 10 дней -->
+            <maxHistory>10</maxHistory>
+
+            <!-- Максимальный размер файлов лога 30 гигабайт -->
+            <totalSizeCap>10MB</totalSizeCap>
+
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} [%thread] %-5level  %logger{20} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.example.todo" level="INFO" />
+
+    <!-- to view SQL statements, change to DEBUG -->
+    <logger name="org.apache.ibatis" level="WARN" />
+
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework.transaction" level="WARN" />
+
+    <!-- in order to debug some marshalling issues, this needs to be TRACE -->
+    <logger name="org.springframework.web.servlet.mvc" level="WARN" />
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
