@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>todo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>todo</name>
     <description>todo</description>
@@ -87,7 +87,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.1.214</version>
-            <scope>test</scope>
+<!--            <scope>test</scope>-->
         </dependency>
 
         <dependency>

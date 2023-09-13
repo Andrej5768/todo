@@ -87,7 +87,6 @@ public class TaskService implements ITaskService {
         task.setDescription(description);
         task.setUserId(userService.findUserByEmail(user).getId());
         task.setCreated(new Timestamp(System.currentTimeMillis()));
-        System.out.println(task);
         return taskRepository.save(task);
     }
 
@@ -109,7 +108,6 @@ public class TaskService implements ITaskService {
         if (task != null) {
             task.setDescription(newDescription);
             task.setUpdated(new Timestamp(System.currentTimeMillis()));
-            System.out.println(task);
             return taskRepository.save(task);
         }
         return null;

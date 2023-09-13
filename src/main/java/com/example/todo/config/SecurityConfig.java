@@ -71,7 +71,20 @@ public class SecurityConfig {
                                 mvc.pattern("/user/resendRegistrationToken*"),
                                 mvc.pattern("/user/resetPassword*"),
                                 mvc.pattern("/api/user/login*"),
-                                mvc.pattern("/api/user/registration*")
+                                mvc.pattern("/api/user/registration*"),
+                                mvc.pattern("/js/**"),
+                                mvc.pattern("/css/**")
+                        ).permitAll()
+                        .requestMatchers(
+                                mvc.pattern("/v2/api-docs"),
+                                mvc.pattern("/swagger-resources"),
+                                mvc.pattern("/swagger-resources/**"),
+                                mvc.pattern("/configuration/ui"),
+                                mvc.pattern("/configuration/security"),
+                                mvc.pattern("/swagger-ui.html"),
+                                mvc.pattern("/webjars/**"),
+                                mvc.pattern("/v3/api-docs/**"),
+                                mvc.pattern("/swagger-ui/**")
                         ).permitAll()
                         .requestMatchers(mvc.pattern("/invalidSession*")).anonymous()
                         .requestMatchers(mvc.pattern("/api/user/updatePassword*")

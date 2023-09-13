@@ -70,11 +70,10 @@
             <span th:if="${!session[SPRING_SECURITY_LAST_EXCEPTION].isEmpty()}" class="error-text" th:utext="${session[SPRING_SECURITY_LAST_EXCEPTION].message}" >error</span>
 
         </div>
-        <span class="error-text" th:if="${param.error}" >error</span>
         <div class="register-link">
             <p>Don't have an account? <a href="/registration">Register</a></p>
             <br/><br/>
-            <p>Forget password? <a href="/forgetPassword">Reset</a> </p>
+            <p>Forget password? <a href="/user/forgetPassword">Reset</a> </p>
         </div>
     </div>
     <script>
