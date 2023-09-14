@@ -5,7 +5,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.web.context.request.RequestContextListener;
@@ -25,7 +24,4 @@ public class TestIntegrationConfig {
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
-
-    @MockBean
-    private JavaMailSender javaMailSender;
 }
