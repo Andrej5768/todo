@@ -1,5 +1,10 @@
 package com.example.todo.web.controller;
 
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.model.Body;
+import com.amazonaws.services.simpleemail.model.Destination;
+import com.amazonaws.services.simpleemail.model.Message;
+import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import com.example.todo.persistence.model.User;
 import com.example.todo.persistence.model.VerificationToken;
 import com.example.todo.registration.OnRegistrationCompleteEvent;
@@ -22,8 +27,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +53,7 @@ public class RegistrationRestController {
     private MessageSource messages;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private AmazonSimpleEmailService mailSender;
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -97,7 +100,7 @@ public class RegistrationRestController {
     public GenericResponse resendRegistrationToken(final HttpServletRequest request, @RequestParam("token") final String existingToken) {
         final VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
         final User user = userService.getUser(newToken.getToken());
-        mailSender.send(constructResendVerificationTokenEmail(getAppUrl(request), request.getLocale(), newToken, user));
+        mailSender.sendEmail(constructResendVerificationTokenEmail(getAppUrl(request), request.getLocale(), newToken, user));
         return new GenericResponse(messages.getMessage("message.resendToken", null, request.getLocale()));
     }
 
@@ -118,7 +121,7 @@ public class RegistrationRestController {
         if (user != null) {
             final String token = UUID.randomUUID().toString();
             userService.createPasswordResetTokenForUser(user, token);
-            mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
+            mailSender.sendEmail(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
         }
         return new GenericResponse(messages.getMessage("message.resetPasswordEmail", null, request.getLocale()));
     }
@@ -176,24 +179,31 @@ public class RegistrationRestController {
 
     // ============== NON-API ============
 
-    private SimpleMailMessage constructResendVerificationTokenEmail(final String contextPath, final Locale locale, final VerificationToken newToken, final User user) {
+    private SendEmailRequest constructResendVerificationTokenEmail(final String contextPath, final Locale locale, final VerificationToken newToken, final User user) {
         final String confirmationUrl = contextPath + "/registrationConfirm.html?token=" + newToken.getToken();
         final String message = messages.getMessage("message.resendToken", null, locale);
         return constructEmail("Resend Registration Token", message + " \r\n" + confirmationUrl, user);
     }
 
-    private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
+    private SendEmailRequest constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
         final String url = contextPath + "/user/changePassword?token=" + token;
         final String message = messages.getMessage("message.resetPassword", null, locale);
         return constructEmail("Reset Password", message + " \r\n" + url, user);
     }
 
-    private SimpleMailMessage constructEmail(String subject, String body, User user) {
-        final SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject(subject);
-        email.setText(body);
-        email.setTo(user.getEmail());
-        email.setFrom(env.getProperty("support.email"));
+    private SendEmailRequest constructEmail(String subject, String body, User user) {
+        final SendEmailRequest email = new SendEmailRequest()
+                .withDestination(
+                        new Destination().withToAddresses(user.getEmail()))
+                .withMessage(new Message()
+                        .withBody(new Body()
+                                .withHtml(new com.amazonaws.services.simpleemail.model.Content()
+                                        .withCharset("UTF-8").withData(body))
+                                .withText(new com.amazonaws.services.simpleemail.model.Content()
+                                        .withCharset("UTF-8").withData(body)))
+                        .withSubject(new com.amazonaws.services.simpleemail.model.Content()
+                                .withCharset("UTF-8").withData(subject)))
+                .withSource(env.getProperty("support.email"));
         return email;
     }
 

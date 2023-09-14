@@ -68,7 +68,7 @@ public class SecurityConfig {
                                 mvc.pattern("/updatePassword*"),
                                 mvc.pattern("/user/changePassword*"),
                                 mvc.pattern("/user/forgetPassword*"),
-                                mvc.pattern("/user/resendRegistrationToken*"),
+                                mvc.pattern("/api/user/resendRegistrationToken*"),
                                 mvc.pattern("/user/resetPassword*"),
                                 mvc.pattern("/api/user/login*"),
                                 mvc.pattern("/api/user/registration*"),

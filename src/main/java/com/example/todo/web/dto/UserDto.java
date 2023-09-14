@@ -4,6 +4,7 @@ import com.example.todo.validation.PasswordMatches;
 import com.example.todo.validation.ValidEmail;
 import com.example.todo.validation.ValidPassword;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -38,6 +39,8 @@ public class UserDto {
     @Size(min = 1, message = "{Size.userDto.email}")
     @Schema(description = "User's email", required = true)
     private String email;
+
+    @Nullable
     private Integer role;
 
     public String getEmail() {
